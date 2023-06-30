@@ -11,7 +11,11 @@ import torch
 
 
 app = Flask(__name__)
-model = timm.create_model('convnextv2_tiny.fcmae_ft_in22k_in1k', checkpoint_path='convnext_tiny.pth', num_classes=269)
+model = timm.create_model(
+    'convnextv2_tiny.fcmae_ft_in22k_in1k',
+    checkpoint_path='/models/convnext_tiny.pth',
+    num_classes=269
+)
 model.eval()
 data_config = timm.data.resolve_model_data_config(model)
 transforms = timm.data.create_transform(**data_config, is_training=False)
