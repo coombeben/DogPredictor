@@ -9,7 +9,7 @@ app = Flask(__name__, instance_relative_config=True)
 app.config.from_mapping(
     SECRET_KEY=os.getenv('FLASK_SECRET_KEY')
 )
-model = prediction.Classifier('convnext_tiny.onnx')
+model = prediction.Classifier('pico_student.onnx')
 
 
 @app.route('/')
