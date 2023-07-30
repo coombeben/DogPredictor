@@ -2,24 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dog Predictor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}">
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" type="text/css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
 <div class="container">
-    <section class="header">
-        <h2 class="title">Dog Identifier</h2>
-    </section>
-    <div class="docs-section">
-        <h6>Upload a dog</h6>
-        <p>Upload a photo of any dog here and get a prediction for its breed.</p>
+    <div class="container">
+        <section class="header">
+            <h2 class="title">Dog Identifier</h2>
+        </section>
+    </div>
+
+    <div class="navbar-spacer"></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <ul class="navbar-list">
+                <li class="navbar-item"><a class="navbar-link" href="/">Home</a></li>
+                <li class="navbar-item"><a class="navbar-link" href="#about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="predict" class="docs-section">
+        <h6 class="docs-header">upload a dog</h6>
+        <p>Upload a photo of any dog here and get a prediction for its breed. To learn more about how this works and to see the university project that lead to its creation, check out the <a href="#about">about</a> section</p>
         <form action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data">
-            <input type="file" id="file" name="file">
-            <input type="submit" value="Submit">
+            <div class="drop-area">
+                <div style="width: 100%; height: 100%"></div>
+                <div class="vert-centered">
+                    <div class="upload-button">Upload File</div>
+                    <p>Drag and drop images</p>
+                    <h6>Maximum file size 5MB</h6>
+                </div>
+                <input class="overlay" type="file" id="upload" name="upload" accept="image/*" style="opacity: 0" width="100%" height="100%" onchange="form.submit()">
+            </div>
         </form>
+    </div>
+
+    <div id="about" class="docs-section">
+        <h6 class="docs-header">About</h6>
+        <p>Welcome to my advanced dog breed identifier.</p>
+        <p>
+            This web application is the culmination of my comprehensive dissertation project, which involved the
+            development of a sophisticated Convolutional Neural Network (CNN) designed to accurately identify dog breeds
+            from single 224x224 photos. The CNN achieves an impressive 85.2% accuracy and has been trained on an
+            extensive dataset comprising 152,000 dog photos, representing 269 distinct breeds.
+        </p>
+        <p>
+            The training dataset is a meticulously curated collection that encompasses computer vision datasets like
+            <a href="http://vision.stanford.edu/aditya86/ImageNetDogs/">Stanford Dogs</a>,
+            <a href="https://cg.cs.tsinghua.edu.cn/ThuDogs/">Tsinghua Dogs</a>, and
+            <a href="https://www.robots.ox.ac.uk/~vgg/data/pets/">Oxford-IIIT Pet</a>., alongside carefully acquired web
+            scraped images. This meticulous approach ensures the model's capability to recognize a diverse range of
+            breeds, regardless of the image source.
+        </p>
+        <p>
+            One of my primary objectives is to provide an efficient and user-friendly experience. The web app has been
+            optimized for speed and simplicity, allowing users to effortlessly upload a photo of a canine companion
+            and promptly receive the precise breed identification.
+        </p>
+        <em>For access to the dataset, please contact <a href="mailto:ben.j.coombe@bath.edu">ben.j.coombe@bath.edu</a></em>
     </div>
 </div>
 </body>
+<script>
+    let upload = document.getElementById('upload')
+
+    function onFile() {
+        var file = upload.files[0];
+
+        if (file.size < 5 * 1024 ** 2) {
+            upload.parentNode.className = 'drop-area uploading'
+        } else {
+            window.alert('File size too large. Please ensure your file is less than 5MB')
+        }
+    }
+
+    upload.addEventListener('dragenter', function (e) {
+        upload.parentNode.className = 'drop-area dragging';
+    }, false);
+
+    upload.addEventListener('dragleave', function (e) {
+        upload.parentNode.className = 'drop-area';
+    }, false);
+
+    upload.addEventListener('dragdrop', function (e) {
+        onFile();
+    }, false);
+
+    upload.addEventListener('change', function (e) {
+        onFile();
+    }, false);
+</script>
 </html>
