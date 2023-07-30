@@ -1,6 +1,8 @@
 import os
+from io import BytesIO
 
 from flask import Flask, request, render_template, redirect
+from PIL import Image, UnidentifiedImageError
 
 from . import prediction
 
@@ -20,9 +22,15 @@ def home():
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
-        file = request.files['file']
+        file = request.files['upload']
         img_bytes = file.read()  # TODO: Validate files
-        predictions = model.get_prediction(img_bytes)
+
+        try:
+            img = Image.open(BytesIO(img_bytes))
+        except UnidentifiedImageError:
+            return render_template('error.html', error='Invalid image')
+
+        predictions = model.get_prediction(img)
         return render_template('predict.html', predications=predictions)
     elif request.method == 'GET':
         return redirect('/')

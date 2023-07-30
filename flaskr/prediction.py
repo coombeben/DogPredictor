@@ -46,11 +46,9 @@ class Classifier:
         with open('labels.json', 'r') as json_file:
             self.labels = json.load(json_file)
 
-    def get_prediction(self, img_bytes: bytes, k: int = 5) -> list[dict]:
+    def get_prediction(self, img: Image, k: int = 5) -> list[dict]:
         if k > 269:
             raise ValueError('K must be lower than the number of classes')
-
-        img = Image.open(BytesIO(img_bytes))
         img_transformed = transform_image(img)
 
         ort_inputs = {self.ort_session.get_inputs()[0].name: img_transformed}

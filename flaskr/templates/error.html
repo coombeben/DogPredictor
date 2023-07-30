@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+<div class="container">
+    <section class="header">
+        <h2 class="title">Error</h2>
+    </section>
+    <div class="docs-section">
+        <p>{{ error }}</p>
+        <a class="button" href="/">Back</a>
+    </div>
+</div>
+</body>
+</html>
