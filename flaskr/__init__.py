@@ -26,7 +26,7 @@ def predict():
         img_bytes = file.read()  # TODO: Validate files
 
         try:
-            img = Image.open(BytesIO(img_bytes))
+            img = Image.open(BytesIO(img_bytes)).convert('RGB')
         except UnidentifiedImageError:
             return render_template('error.html', error='Invalid image')
 
